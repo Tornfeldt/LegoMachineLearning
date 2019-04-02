@@ -63,6 +63,8 @@ object BasicRobotController {
 
             NXTCommandConnector.setNXTCommand(NXTCommand(conn.getNXTComm()))
 
+            setupMotorsAndSensors()
+
             nxtConnection = conn
             isConnected = true
         } catch (e: Exception) {

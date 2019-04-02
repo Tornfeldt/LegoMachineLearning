@@ -65,6 +65,9 @@ class RobotController {
     fun startTraining() {
         isTraining = true
 
+        controller.steeringPower(70)
+        controller.drivingPower(40)
+
         Thread {
             // Steer the robot as long as we are training. Run in its own thread to not block.
             while (isTraining) {
@@ -72,7 +75,11 @@ class RobotController {
                 val wantedTachoCount = convertSteeringPercentageToTachoCount(steeringPercentage)
                 controller.steeringRotateToTachoCount(wantedTachoCount)
             }
-        }
+
+            // Make sure motors are stopped after training
+            controller.drivingStop()
+            controller.steeringStop()
+        }.start()
 
         // The robot must run forward when training
         controller.drivingForward()
