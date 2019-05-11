@@ -42,7 +42,7 @@ object FakeRobotController: BasicRobotController {
     }
 
     override fun steeringRotateToTachoCount(resultingTachoCount: Int) {
-
+        Thread.sleep(500)
     }
 
     override fun getCurrentSteeringTachoCount(): Int {

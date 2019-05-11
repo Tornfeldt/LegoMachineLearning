@@ -58,19 +58,22 @@ class CameraService {
             val maxXImage = (maximumXSurroundingWantedPixels / scale).toInt()
             val minYImage = (minimumYSurroundingWantedPixels / scale).toInt()
             val maxYImage = (maximumYSurroundingWantedPixels / scale).toInt()
-            val height = maxYImage - minYImage
+            var height = maxYImage - minYImage
             val width = maxXImage - minXImage
+
+            height = 1; // Always take just one row of pixels
 
             val wantedPixels = IntArray(width * height)
             resultingBitmap?.getPixels(wantedPixels, 0, width, minXImage, minYImage, width, height)
 
             convertRgbPixelsToGrayscaleRgbValues(wantedPixels)
-            val newBitmap = Bitmap.createBitmap(width, height, resultingBitmap.config)
-            newBitmap.copyPixelsFromBuffer(IntBuffer.wrap(wantedPixels))
+            var newImagePixels = wantedPixels + wantedPixels + wantedPixels + wantedPixels + wantedPixels + wantedPixels + wantedPixels + wantedPixels + wantedPixels + wantedPixels + wantedPixels;
+            val newBitmap = Bitmap.createBitmap(width, height * 10, resultingBitmap.config)
+            newBitmap.copyPixelsFromBuffer(IntBuffer.wrap(newImagePixels))
 
             convertRgbPixelsToGrayscaleValues(wantedPixels)
 
-            imageDataReadyHandler.imageReady(newBitmap, wantedPixels)
+            imageDataReadyHandler.imageReady(width, height, minimumXSurroundingWantedPixels, minimumYSurroundingWantedPixels, newBitmap, wantedPixels)
         }
     }
 

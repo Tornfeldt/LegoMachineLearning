@@ -1,12 +1,16 @@
 package es.jepp.legomachinelearning
 
+import kotlinx.coroutines.*
+
 class RobotController {
     private val controller: BasicRobotController
+    private val robotHasSteeredHandler: RobotHasSteeredHandler
     private var mostRightTachoCount = 0
-    private var isTraining = false
+    private var isCollectingData = false
 
-    constructor(controller: BasicRobotController){
+    constructor(controller: BasicRobotController, robotHasSteeredHandler: RobotHasSteeredHandler){
         this.controller = controller
+        this.robotHasSteeredHandler = robotHasSteeredHandler
     }
 
     /**
@@ -21,7 +25,7 @@ class RobotController {
      * Disconnects the robot if it was connected.
      */
     fun disconnect() {
-        isTraining = false
+        isCollectingData = false
         controller.disconnect()
     }
 
@@ -60,33 +64,40 @@ class RobotController {
     }
 
     /**
-     * Starts training and enables manual steering
+     * Starts collecting data and enables manual steering
      */
-    fun startTraining() {
-        isTraining = true
+    fun startCollectData() {
+        isCollectingData = true
 
-        controller.steeringPower(70)
-        controller.drivingPower(40)
+        controller.steeringPower(80)
+        controller.drivingPower(20)
 
-        Thread {
-            // Steer the robot as long as we are training. Run in its own thread to not block.
-            while (isTraining) {
+        GlobalScope.launch {
+            // Steer the robot as long as we are collecting data. Run in its own thread to not block.
+            while (isCollectingData) {
                 val steeringPercentage = controller.getCurrentSteeringSensorAngleInPercent()
-                val wantedTachoCount = convertSteeringPercentageToTachoCount(steeringPercentage)
-                controller.steeringRotateToTachoCount(wantedTachoCount)
+
+                if (isCollectingData){
+                    GlobalScope.launch {
+                        robotHasSteeredHandler.robotHasSteered(steeringPercentage)
+                    }
+
+                    val wantedTachoCount = convertSteeringPercentageToTachoCount(steeringPercentage)
+                    controller.steeringRotateToTachoCount(wantedTachoCount)
+                }
             }
 
-            // Make sure motors are stopped after training
+            // Make sure motors are stopped after collecting data
             controller.drivingStop()
             controller.steeringStop()
         }.start()
 
-        // The robot must run forward when training
+        // The robot must run forward when collecting data
         controller.drivingForward()
     }
 
-    fun stopTraining() {
-        isTraining = false
+    fun stopCollectData() {
+        isCollectingData = false
     }
 
     private fun convertSteeringPercentageToTachoCount(percentage: Float): Int {
