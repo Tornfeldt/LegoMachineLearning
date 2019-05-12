@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,4 +7,105 @@
         android:layout_height="match_parent"
         tools:context=".viewlogic.TrainActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+            android:id="@+id/deleteOldTrainedModelContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <Button
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:text="Delete training model"
+                android:id="@+id/deleteOldTrainedModelButton"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="0"
+                android:weightSum="1">
+            <Button
+                    android:id="@+id/startTrainButton"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:text="Start train"/>
+            <Button
+                    android:id="@+id/stopTrainButton"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:enabled="false"
+                    android:text="Stop train"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:weightSum="2"
+                android:orientation="horizontal">
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:ems="10"
+                    android:id="@+id/learningRateEditText"
+                    android:layout_weight="1"/>
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/numberOfIterationsEditText"
+                    android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:weightSum="2"
+                android:orientation="horizontal">
+            <TextView
+                    android:text="Percentage done:"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"/>
+            <TextView
+                    android:id="@+id/percentageDoneTextView"
+                    android:text="0 %"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"/>
+        </LinearLayout>
+
+        <com.jjoe64.graphview.GraphView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/graph"
+                android:layout_weight="1"/>
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_weight="0"
+                android:scrollbarAlwaysDrawVerticalTrack="true">
+            <TextView
+                    android:id="@+id/statusTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"/>
+        </ScrollView>
+
+    </LinearLayout>
+
+</FrameLayout>
