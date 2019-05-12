@@ -12,7 +12,7 @@ object LinearRegressionTools {
 
         var result = 0f
         val m = y.size
-        for (i in 0..m) {
+        for (i in 0 until m) {
             val h = computeHypothesis(X[i], theta)
             result += (h - y[i]).pow(2f) / (2 * m)
         }
@@ -27,7 +27,7 @@ object LinearRegressionTools {
 
         var result = 0f
         val n = theta.size
-        for (i in 0..n) {
+        for (i in 0 until n) {
             result += theta[i] * x[i]
         }
 

@@ -9,11 +9,11 @@ object CsvToDataConverter {
 
         var numberOfFeatures: Int? = null
 
-        var lineNumber = 0
         datafile.forEachLine {
             val splittedLine = it.split(",")
 
-            val steeringAngle = splittedLine[4].toFloat()
+            var steeringAngle = splittedLine[4].toFloat()
+            steeringAngle = (steeringAngle - 50f) / 50f // make sure the steering angle is between -1 and 1
             y.add(steeringAngle)
 
             val thisNumberOfFeatures = splittedLine.size - 5
@@ -29,11 +29,10 @@ object CsvToDataConverter {
 
             for(i in 1..thisNumberOfFeatures) {
                 val feature = splittedLine[i + 4].toFloat()
-                x[i] = feature
+                x[i] = feature / 255f // make sure the pixel value is normalized to be between 0 and 1
             }
 
-            X[lineNumber] = x
-            lineNumber++
+            X.add(x)
         }
 
         val result = TrainData(X.toTypedArray(), y.toFloatArray())

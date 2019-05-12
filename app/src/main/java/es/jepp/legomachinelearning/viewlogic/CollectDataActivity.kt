@@ -105,17 +105,35 @@ class CollectDataActivity : Activity() {
                 ) {
                     converted_image.setImageBitmap(image)
 
-                    var csvLine = "$positionX,$positionY,$width,$height,$latestSteeringAngle"
-                    for (pixel in grayscalePixels) {
-                        csvLine += ",$pixel"
-                    }
-                    csvLine += "\n"
+                    writePixelsToDataFile(grayscalePixels, positionX, positionY, width, height)
 
-                    addTextToDataFile(csvLine)
+                    val mirroredGrayscalePixels = mirrorPixelArray(grayscalePixels, width, height)
+                    writePixelsToDataFile(mirroredGrayscalePixels, positionX, positionY, width, height)
                 }
             })
 
         robotController?.startCollectData()
+    }
+
+    private fun writePixelsToDataFile(pixels: IntArray, positionX: Int, positionY: Int, width: Int, height: Int){
+        var csvLine = "$positionX,$positionY,$width,$height,$latestSteeringAngle"
+        for (pixel in pixels) {
+            csvLine += ",$pixel"
+        }
+        csvLine += "\n"
+
+        addTextToDataFile(csvLine)
+    }
+
+    private fun mirrorPixelArray(pixels: IntArray, width: Int, height: Int): IntArray{
+        var mirrored = IntArray(pixels.size)
+        for (j in 0 until height){
+            for (i in 0 until width) {
+                var value = pixels[j * height + i]
+                mirrored[j * height + (height + (i + 1))] = value
+            }
+        }
+        return mirrored
     }
 
     private fun stopCollectData() {

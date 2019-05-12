@@ -36,7 +36,7 @@ class LinearRegression {
 
         gradientDescentIsRunning = true
 
-        for (iteration in 0..numberOfIterations) {
+        for (iteration in 1..numberOfIterations) {
             if (!gradientDescentIsRunning) {
                 break
             }
@@ -61,10 +61,10 @@ class LinearRegression {
         var m = y.size;
         var n = theta!!.size;
 
-        for (j in 0..n) {
+        for (j in 0 until n) {
             var sumResult = 0f
 
-            for (i in 0..m) {
+            for (i in 0 until m) {
                 val h = LinearRegressionTools.computeHypothesis(X[i], theta!!)
                 sumResult += (learningRate / m) * (h - y[i]) * X[i][j]
             }
