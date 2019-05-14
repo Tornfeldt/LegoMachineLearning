@@ -16,5 +16,15 @@ class MainActivity : Activity() {
             //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             this.startActivity(intent)
         }
+
+        trainButton.setOnClickListener {
+            val intent = Intent(this, SelectDataForTrainingActivity::class.java)
+            this.startActivity(intent)
+        }
+
+        driveButton.setOnClickListener {
+            val intent = Intent(this, SelectModelBeforeDrivingActivity::class.java)
+            this.startActivity(intent)
+        }
     }
 }

@@ -1,5 +1,7 @@
 package es.jepp.legomachinelearning
 
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
 class LinearRegression {
@@ -36,18 +38,20 @@ class LinearRegression {
 
         gradientDescentIsRunning = true
 
-        for (iteration in 1..numberOfIterations) {
-            if (!gradientDescentIsRunning) {
-                break
+        GlobalScope.launch {
+            for (iteration in 1..numberOfIterations) {
+                if (!gradientDescentIsRunning) {
+                    break
+                }
+
+                gradientDescentSingleIteration()
+
+                val cost = LinearRegressionTools.computeCost(X, y, theta!!)
+                iterationHandler?.afterEachIteration(numberOfIterations, iteration, cost)
             }
 
-            gradientDescentSingleIteration()
-
-            val cost = LinearRegressionTools.computeCost(X, y, theta!!)
-            iterationHandler?.afterEachIteration(numberOfIterations, iteration, cost)
-        }
-
-        iterationHandler?.afterAllIterations(theta!!)
+            iterationHandler?.afterAllIterations(theta!!)
+        }.start()
     }
 
     fun stopGradientDescent() {

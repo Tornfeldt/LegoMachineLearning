@@ -96,6 +96,36 @@ class RobotController {
         controller.drivingForward()
     }
 
+    /**
+     * Starts driving
+     */
+    fun startDriving() {
+        controller.steeringPower(80)
+        controller.drivingPower(20)
+        controller.drivingForward()
+    }
+
+    /**
+     * Stops driving
+     */
+    fun stopDriving() {
+        controller.drivingStop()
+        controller.steeringStop()
+    }
+
+    fun steer(resultingSteeringPercent: Float) {
+        var adjustedSteeringPercent = resultingSteeringPercent
+        if (adjustedSteeringPercent > 100f) {
+            adjustedSteeringPercent = 100f
+        } else if (adjustedSteeringPercent < 0f) {
+            adjustedSteeringPercent = 0f
+        }
+
+        val tachoCount = convertSteeringPercentageToTachoCount(adjustedSteeringPercent)
+
+        controller.steeringRotateToTachoCount(tachoCount)
+    }
+
     fun stopCollectData() {
         isCollectingData = false
     }

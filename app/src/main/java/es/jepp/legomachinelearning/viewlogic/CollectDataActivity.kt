@@ -22,8 +22,8 @@ class CollectDataActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_collect_data)
 
-        //val actualRobotController = FakeRobotController
-        val actualRobotController = NxtRobotController
+        val actualRobotController = FakeRobotController
+        //val actualRobotController = NxtRobotController
         robotController = RobotController(
             actualRobotController,
             object : RobotHasSteeredHandler {
@@ -130,7 +130,7 @@ class CollectDataActivity : Activity() {
         for (j in 0 until height){
             for (i in 0 until width) {
                 var value = pixels[j * height + i]
-                mirrored[j * height + (height + (i + 1))] = value
+                mirrored[j * height + (width - (i + 1))] = value
             }
         }
         return mirrored

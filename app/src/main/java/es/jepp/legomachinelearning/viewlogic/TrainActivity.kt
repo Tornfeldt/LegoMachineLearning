@@ -2,6 +2,7 @@ package es.jepp.legomachinelearning.viewlogic
 
 import android.app.Activity
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import com.google.gson.Gson
 import com.jjoe64.graphview.series.DataPoint
@@ -22,18 +23,27 @@ class TrainActivity : Activity(), LinearRegression.LinearRegressionIterationHand
     private var linearRegression: LinearRegression? = null
     private var graphSeries: LineGraphSeries<DataPoint>? = null
 
+    private var uiHandler: Handler? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_train)
 
-        if (doesTrainedModelExist())
+        uiHandler = Handler()
+
+        if (doesTrainedModelExist()) {
             deleteOldTrainedModelContainer.visibility = View.VISIBLE
-        else
+            trainContainer.visibility = View.GONE
+        }
+        else {
             deleteOldTrainedModelContainer.visibility = View.GONE
+            trainContainer.visibility = View.VISIBLE
+        }
 
         deleteOldTrainedModelButton.setOnClickListener {
             deleteTrainedModel()
             deleteOldTrainedModelContainer.visibility = View.GONE
+            trainContainer.visibility = View.VISIBLE
         }
 
         stopTrainButton.setOnClickListener {
@@ -55,6 +65,8 @@ class TrainActivity : Activity(), LinearRegression.LinearRegressionIterationHand
 
             linearRegression!!.generateTheta()
             linearRegression!!.setIterationHandler(this)
+
+            linearRegression!!.doGradientDescent()
         }
     }
 
@@ -112,15 +124,25 @@ class TrainActivity : Activity(), LinearRegression.LinearRegressionIterationHand
 
     override fun afterEachIteration(totalNumberOfIterations: Int, currentIteration: Int, currentTrainCost: Float) {
         val percentageDone = (100 * currentIteration) / totalNumberOfIterations
-        percentageDoneTextView.text = percentageDone.toString()
 
-        graphSeries!!.appendData(DataPoint(currentIteration.toDouble(), currentTrainCost.toDouble()), false, totalNumberOfIterations)
+        uiHandler!!.post {
+            percentageDoneTextView.text = percentageDone.toString()
+
+            graphSeries!!.appendData(
+                DataPoint(currentIteration.toDouble(), currentTrainCost.toDouble()),
+                false,
+                totalNumberOfIterations
+            )
+        }
     }
 
     override fun afterAllIterations(theta: FloatArray) {
         var trainedModel = CsvToDataConverter.generateTrainedModel(getTrainDataFile(), theta)
         writeTrainedModelFile(trainedModel)
 
-        startTrainButton.isEnabled = true
+        uiHandler!!.post{
+            startTrainButton.isEnabled = true
+            stopTrainButton.isEnabled = false
+        }
     }
 }

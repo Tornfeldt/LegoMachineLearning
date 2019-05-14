@@ -16,6 +16,10 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".viewlogic.DriveActivity">
+        </activity>
+        <activity android:name=".viewlogic.SelectModelBeforeDrivingActivity">
+        </activity>
         <activity android:name=".viewlogic.TrainActivity">
         </activity>
         <activity android:name=".viewlogic.SelectDataForTrainingActivity">

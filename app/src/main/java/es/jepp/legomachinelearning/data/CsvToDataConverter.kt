@@ -57,4 +57,17 @@ object CsvToDataConverter {
         var result = TrainedModel(positionX, positionY, width, height, theta)
         return result
     }
+
+    fun generateFeaturesFromGrayscalePixels(grayscalePixels: IntArray): FloatArray {
+        val numberOfPixels = grayscalePixels.size
+
+        val result = FloatArray(numberOfPixels + 1)
+        result[0] = 1f
+
+        for (i in 1..numberOfPixels){
+            result[i] = grayscalePixels[i - 1] / 255f
+        }
+
+        return result
+    }
 }
