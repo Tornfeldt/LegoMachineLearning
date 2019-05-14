@@ -22,8 +22,8 @@ class CollectDataActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_collect_data)
 
-        val actualRobotController = FakeRobotController
-        //val actualRobotController = NxtRobotController
+        //val actualRobotController = FakeRobotController
+        val actualRobotController = NxtRobotController
         robotController = RobotController(
             actualRobotController,
             object : RobotHasSteeredHandler {
@@ -96,27 +96,37 @@ class CollectDataActivity : Activity() {
             rectangleDrawView.listPoints(),
             object : ImageDataReadyHandler {
                 override fun imageReady(
-                    width: Int,
-                    height: Int,
-                    positionX: Int,
-                    positionY: Int,
+                    processedImageWidth: Int,
+                    processedImageHeight: Int,
+                    sourceImagePositionX: Int,
+                    sourceImagePositionY: Int,
+                    sourceImageWidth: Int,
+                    sourceImageHeight: Int,
                     image: Bitmap,
                     grayscalePixels: IntArray
                 ) {
                     converted_image.setImageBitmap(image)
 
-                    writePixelsToDataFile(grayscalePixels, positionX, positionY, width, height)
+                    writePixelsToDataFile(grayscalePixels, latestSteeringAngle, processedImageWidth, processedImageHeight, sourceImagePositionX, sourceImagePositionY, sourceImageWidth, sourceImageHeight)
 
-                    val mirroredGrayscalePixels = mirrorPixelArray(grayscalePixels, width, height)
-                    writePixelsToDataFile(mirroredGrayscalePixels, positionX, positionY, width, height)
+                    val latestSteeringAngleMirrored = (latestSteeringAngle - 50) * (-1) + 50
+                    val mirroredGrayscalePixels = mirrorPixelArray(grayscalePixels, processedImageWidth, processedImageHeight)
+                    writePixelsToDataFile(mirroredGrayscalePixels, latestSteeringAngleMirrored, processedImageWidth, processedImageHeight, sourceImagePositionX, sourceImagePositionY, sourceImageWidth, sourceImageHeight)
                 }
             })
 
         robotController?.startCollectData()
     }
 
-    private fun writePixelsToDataFile(pixels: IntArray, positionX: Int, positionY: Int, width: Int, height: Int){
-        var csvLine = "$positionX,$positionY,$width,$height,$latestSteeringAngle"
+    private fun writePixelsToDataFile(pixels: IntArray,
+                                      steeringAngle: Float,
+                                      processedImageWidth: Int,
+                                      processedImageHeight: Int,
+                                      sourceImagePositionX: Int,
+                                      sourceImagePositionY: Int,
+                                      sourceImageWidth: Int,
+                                      sourceImageHeight: Int){
+        var csvLine = "$processedImageWidth;$processedImageHeight;$sourceImagePositionX;$sourceImagePositionY;$sourceImageWidth;$sourceImageHeight,$steeringAngle"
         for (pixel in pixels) {
             csvLine += ",$pixel"
         }

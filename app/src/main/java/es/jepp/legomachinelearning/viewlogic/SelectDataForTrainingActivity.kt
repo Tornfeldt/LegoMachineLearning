@@ -32,6 +32,8 @@ class SelectDataForTrainingActivity : Activity() {
         val intent = Intent(this, TrainActivity::class.java)
         intent.putExtra("ModelName", modelName)
         this.startActivity(intent)
+
+        this.finish()
     }
 
     fun listModelsWithData(): List<String> {

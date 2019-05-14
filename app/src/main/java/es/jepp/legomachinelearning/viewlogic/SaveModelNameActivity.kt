@@ -23,21 +23,11 @@ class SaveModelNameActivity : Activity() {
                 Toast.makeText(this, "Storage not mounted", Toast.LENGTH_LONG).show()
             }
 
-            var dataDirectory = this.getExternalFilesDir(StaticSettings.BASE_FOLDER_NAME)
-
             val modelName = modelNameInput.text.toString()
 
-            var fileCreated = false
-
-            try {
-                File(dataDirectory, modelName).createNewFile()
-                fileCreated = true
-            }
-            catch (e: Exception){
-                Toast.makeText(this, "Unable to create model file", Toast.LENGTH_LONG).show()
-            }
-
-            if (fileCreated) {
+            if (getDataFile(modelName).exists()) {
+                Toast.makeText(this, "Model already exists", Toast.LENGTH_LONG).show()
+            } else {
                 val intent = Intent(this, CollectDataActivity::class.java)
                 intent.putExtra("ModelName", modelName)
                 this.startActivity(intent)
@@ -45,6 +35,12 @@ class SaveModelNameActivity : Activity() {
                 this.finish()
             }
         }
+    }
+
+    private fun getDataFile(modelName: String): File {
+        val dataDirectory = getExternalFilesDir(StaticSettings.BASE_FOLDER_NAME)
+        val fileName = modelName + StaticSettings.DATA_FILE_ENDING
+        return File(dataDirectory, fileName)
     }
 
     fun isExternalStorageWritable(): Boolean {

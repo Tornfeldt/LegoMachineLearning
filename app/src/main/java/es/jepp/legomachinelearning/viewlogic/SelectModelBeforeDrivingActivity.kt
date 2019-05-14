@@ -31,6 +31,8 @@ class SelectModelBeforeDrivingActivity : Activity() {
         val intent = Intent(this, DriveActivity::class.java)
         intent.putExtra("ModelName", modelName)
         this.startActivity(intent)
+
+        this.finish()
     }
 
     fun listTrainedModels(): List<String> {

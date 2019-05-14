@@ -33,8 +33,8 @@ class DriveActivity : Activity() {
 
         setTrainedModel()
 
-        val actualRobotController = FakeRobotController
-        //val actualRobotController = NxtRobotController
+        //val actualRobotController = FakeRobotController
+        val actualRobotController = NxtRobotController
         robotController = RobotController(
             actualRobotController,
             object : RobotHasSteeredHandler {
@@ -94,16 +94,18 @@ class DriveActivity : Activity() {
         cameraService = CameraService(
             camera.width,
             camera.height,
-            arrayOf(Point(trainedModel!!.positionX, trainedModel!!.positionY), Point(trainedModel!!.positionX + trainedModel!!.width, trainedModel!!.positionY), Point(trainedModel!!.positionX, trainedModel!!.positionY + trainedModel!!.height), Point(trainedModel!!.positionX + trainedModel!!.width, trainedModel!!.positionY + trainedModel!!.height)),
+            arrayOf(Point(trainedModel!!.sourceImagePositionX, trainedModel!!.sourceImagePositionY), Point(trainedModel!!.sourceImagePositionX + trainedModel!!.sourceImageWidth, trainedModel!!.sourceImagePositionY), Point(trainedModel!!.sourceImagePositionX, trainedModel!!.sourceImagePositionY + trainedModel!!.sourceImageHeight), Point(trainedModel!!.sourceImagePositionX + trainedModel!!.sourceImageWidth, trainedModel!!.sourceImagePositionY + trainedModel!!.sourceImageHeight)),
             object : ImageDataReadyHandler {
                 override fun imageReady(
-                    width: Int,
-                    height: Int,
-                    positionX: Int,
-                    positionY: Int,
+                    processedImageWidth: Int,
+                    processedImageHeight: Int,
+                    sourceImagePositionX: Int,
+                    sourceImagePositionY: Int,
+                    sourceImageWidth: Int,
+                    sourceImageHeight: Int,
                     image: Bitmap,
                     grayscalePixels: IntArray
-                ) {
+                )  {
                     if (isDriving) {
                         converted_image.setImageBitmap(image)
                         steerCar(grayscalePixels)
@@ -133,7 +135,6 @@ class DriveActivity : Activity() {
         if (isDriving) {
             robotController?.steer(steeringAngle)
 
-            Thread.sleep(10)
             if (isDriving) {
                 camera.takePictureSnapshot()
             }

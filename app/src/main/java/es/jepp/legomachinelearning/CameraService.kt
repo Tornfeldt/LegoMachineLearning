@@ -73,7 +73,15 @@ class CameraService {
 
             convertRgbPixelsToGrayscaleValues(wantedPixels)
 
-            imageDataReadyHandler.imageReady(width, height, minimumXSurroundingWantedPixels, minimumYSurroundingWantedPixels, newBitmap, wantedPixels)
+            imageDataReadyHandler.imageReady(
+                width,
+                height,
+                minimumXSurroundingWantedPixels,
+                minimumYSurroundingWantedPixels,
+                maximumXSurroundingWantedPixels - minimumXSurroundingWantedPixels,
+                maximumYSurroundingWantedPixels - minimumYSurroundingWantedPixels,
+                newBitmap,
+                wantedPixels)
         }
     }
 
