@@ -4,6 +4,7 @@ import android.util.Log
 import lejos.nxt.Motor
 import lejos.nxt.SensorPort
 import lejos.nxt.TouchSensor
+import lejos.nxt.addon.AngleSensor
 import lejos.nxt.remote.NXTCommand
 import lejos.nxt.remote.RemoteMotor
 import lejos.pc.comm.NXTComm
@@ -24,7 +25,7 @@ object NxtRobotController : BasicRobotController {
     private var steeringMotor: RemoteMotor? = null
     private var leftTouchSensor: TouchSensor? = null
     private var rightTouchSensor: TouchSensor? = null
-    private var steeringSensor: SensorPort? = null
+    private var steeringSensor: AngleSensor? = null
 
     var isConnected: Boolean = false
 
@@ -33,8 +34,7 @@ object NxtRobotController : BasicRobotController {
         steeringMotor = Motor.A
         leftTouchSensor = TouchSensor(SensorPort.S1)
         rightTouchSensor = TouchSensor(SensorPort.S2)
-        steeringSensor = SensorPort.S3
-        steeringSensor?.setTypeAndMode(SensorPort.TYPE_SWITCH, SensorPort.MODE_BOOLEAN)
+        steeringSensor = AngleSensor(SensorPort.S3)
     }
 
     /**
@@ -179,15 +179,19 @@ object NxtRobotController : BasicRobotController {
      * Gets the current steering angle in percent.
      */
     override fun getCurrentSteeringSensorAngleInPercent(): Float {
-        var rawValue = steeringSensor?.readRawValue()!!
-        var percentage = convertRawSteeringValueToPercent(rawValue)
-        return percentage
+        val angle = steeringSensor!!.accumulatedAngle
+        val maxValue = 130f;
+        var anglePercent = 100 - 100 * (angle + maxValue) / (2f * maxValue)
+
+        if (anglePercent > 100f)
+            anglePercent = 100f
+        else if (anglePercent < 0f)
+            anglePercent = 0f
+
+        return anglePercent
     }
 
-    private fun convertRawSteeringValueToPercent(raw: Int): Float {
-        val result = (100.0 * 0.6387659 * Math.log(-515.7895 / (raw - 765.7895))).toFloat() - 2
-        if (result < 0)
-            return 0f
-        return if (result > 100) 100f else result
+    override fun resetSteeringAngleToCenterPosition() {
+        steeringSensor?.resetAccumulatedAngle()
     }
 }

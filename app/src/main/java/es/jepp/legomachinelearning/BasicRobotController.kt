@@ -16,4 +16,5 @@ interface BasicRobotController {
     fun isSteeringAtTheMostLeftPosition(): Boolean
     fun isSteeringAtTheMostRightPosition(): Boolean
     fun getCurrentSteeringSensorAngleInPercent(): Float
+    fun resetSteeringAngleToCenterPosition()
 }

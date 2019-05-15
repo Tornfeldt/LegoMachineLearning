@@ -1,6 +1,10 @@
 package es.jepp.legomachinelearning
 
 object FakeRobotController: BasicRobotController {
+    override fun resetSteeringAngleToCenterPosition() {
+
+    }
+
     override fun tryConnect(): Boolean {
         return true
     }

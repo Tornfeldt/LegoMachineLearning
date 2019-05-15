@@ -35,6 +35,8 @@ class RobotController {
     fun initializeSteering() {
         controller.steeringPower(20)
 
+        controller.resetSteeringAngleToCenterPosition()
+
         // First steer all the way right to make sure the steering initialization is the same every time
         if (!controller.isSteeringAtTheMostRightPosition()) {
             controller.steeringRight()
