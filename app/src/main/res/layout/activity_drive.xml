@@ -27,7 +27,7 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="120dp"
                 android:weightSum="1">
             <Button
                     android:id="@+id/startDriveButton"
@@ -43,10 +43,22 @@
                     android:text="Stop driving"/>
         </LinearLayout>
 
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+            <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:checked="false"
+                    android:id="@+id/cameraFlashOnCheckBox"
+                    android:layout_marginLeft="20dp"
+                    android:text="Camera flash on"/>
+        </LinearLayout>
+
         <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.4">
+                android:layout_weight="0.7">
 
             <com.otaliastudios.cameraview.CameraView
                     android:id="@+id/camera"
@@ -72,6 +84,17 @@
                 android:id="@+id/converted_image"
                 android:layout_weight="0.3"/>
 
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_weight="0"
+                android:scrollbarAlwaysDrawVerticalTrack="true">
+            <TextView
+                    android:id="@+id/statusTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"/>
+        </ScrollView>
     </LinearLayout>
 
 </FrameLayout>

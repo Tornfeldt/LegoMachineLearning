@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.jepp.legomachinelearning.R
 import es.jepp.legomachinelearning.StaticSettings
@@ -17,6 +18,9 @@ class SelectModelBeforeDrivingActivity : Activity() {
 
         var modelNames = listTrainedModels()
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val dividerItemDecoration = DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL)
+        recyclerView.addItemDecoration(dividerItemDecoration)
 
         val adapter = SelectModelViewAdapter(this, modelNames)
         adapter.setClickListener(object: SelectModelViewAdapter.ItemClickListener {

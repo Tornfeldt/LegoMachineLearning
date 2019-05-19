@@ -8,6 +8,11 @@
         android:layout_height="match_parent"
         android:weightSum="1">
 
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Model name:"/>
+
     <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -20,7 +25,7 @@
 
         <Button
                 android:id="@+id/saveButton"
-                android:text="Save"
+                android:text="Create model"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

@@ -5,9 +5,12 @@ import android.graphics.Bitmap
 import android.graphics.Point
 import android.os.Bundle
 import android.view.View
+import android.widget.CompoundButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import com.google.gson.Gson
 import com.otaliastudios.cameraview.CameraListener
+import com.otaliastudios.cameraview.Flash
 import com.otaliastudios.cameraview.PictureResult
 import es.jepp.legomachinelearning.*
 import es.jepp.legomachinelearning.data.CsvToDataConverter
@@ -33,8 +36,8 @@ class DriveActivity : Activity() {
 
         setTrainedModel()
 
-        //val actualRobotController = FakeRobotController
-        val actualRobotController = NxtRobotController
+        val actualRobotController = FakeRobotController
+        //val actualRobotController = NxtRobotController
         robotController = RobotController(
             actualRobotController,
             object : RobotHasSteeredHandler {
@@ -45,6 +48,19 @@ class DriveActivity : Activity() {
             override fun onPictureTaken(result: PictureResult) {
                 cameraService?.onPictureTaken(result)
             }
+        })
+
+        cameraFlashOnCheckBox.setOnCheckedChangeListener(object: RadioGroup.OnCheckedChangeListener,
+            CompoundButton.OnCheckedChangeListener {
+            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+                if (isChecked) {
+                    camera.flash = Flash.TORCH
+                } else {
+                    camera.flash = Flash.OFF
+                }
+            }
+
+            override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) { }
         })
 
         initializeSteeringButton.setOnClickListener { startInitialization() }

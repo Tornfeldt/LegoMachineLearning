@@ -50,22 +50,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:weightSum="2"
-                android:orientation="horizontal">
-            <EditText
-                    android:layout_width="0dp"
+                android:orientation="vertical">
+            <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:ems="10"
-                    android:id="@+id/learningRateEditText"
-                    android:layout_weight="1"/>
-            <EditText
-                    android:layout_width="0dp"
+                    android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Learning rate:"
+                        android:layout_marginRight="5pt"/>
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:ems="10"
+                        android:text="0.1"
+                        android:id="@+id/learningRateEditText"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:id="@+id/numberOfIterationsEditText"
-                    android:layout_weight="1"/>
+                    android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Iterations:"
+                        android:layout_marginRight="5pt"/>
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:ems="10"
+                        android:text="10000"
+                        android:id="@+id/numberOfIterationsEditText"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

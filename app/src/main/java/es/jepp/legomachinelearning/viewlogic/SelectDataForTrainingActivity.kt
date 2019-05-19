@@ -9,6 +9,9 @@ import es.jepp.legomachinelearning.R
 import es.jepp.legomachinelearning.StaticSettings
 import kotlinx.android.synthetic.main.activity_select_data_for_training.*
 import java.io.File
+import androidx.recyclerview.widget.DividerItemDecoration
+
+
 
 class SelectDataForTrainingActivity : Activity() {
 
@@ -18,6 +21,9 @@ class SelectDataForTrainingActivity : Activity() {
 
         var modelNames = listModelsWithData()
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val dividerItemDecoration = DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL)
+        recyclerView.addItemDecoration(dividerItemDecoration)
 
         val adapter = SelectModelViewAdapter(this, modelNames)
         adapter.setClickListener(object: SelectModelViewAdapter.ItemClickListener {

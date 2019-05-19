@@ -1,15 +1,22 @@
 package es.jepp.legomachinelearning.viewlogic
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
+import android.widget.CompoundButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import com.otaliastudios.cameraview.CameraListener
+import com.otaliastudios.cameraview.Flash
 import com.otaliastudios.cameraview.PictureResult
 import es.jepp.legomachinelearning.*
 import kotlinx.android.synthetic.main.activity_collect_data.*
 import java.io.File
+
+
 
 class CollectDataActivity : Activity() {
     private var robotController: RobotController? = null
@@ -22,8 +29,8 @@ class CollectDataActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_collect_data)
 
-        //val actualRobotController = FakeRobotController
-        val actualRobotController = NxtRobotController
+        val actualRobotController = FakeRobotController
+        //val actualRobotController = NxtRobotController
         robotController = RobotController(
             actualRobotController,
             object : RobotHasSteeredHandler {
@@ -36,14 +43,31 @@ class CollectDataActivity : Activity() {
                 }
             })
 
+        cameraFlashOnCheckBox.setOnCheckedChangeListener(object: RadioGroup.OnCheckedChangeListener,
+            CompoundButton.OnCheckedChangeListener {
+            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+                if (isChecked) {
+                    camera.flash = Flash.TORCH
+                } else {
+                    camera.flash = Flash.OFF
+                }
+            }
+
+            override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) { }
+        })
+
         collectDataContainer.visibility = View.GONE
         initializeContainer.visibility = View.VISIBLE
         startCollectButton.isEnabled = true
         stopCollectButton.isEnabled = false
+        continueCollectButton.isEnabled = false
+        pauseCollectButton.isEnabled = false
 
         initializeSteeringButton.setOnClickListener { startInitialization() }
-        startCollectButton.setOnClickListener { startCollectData() }
+        startCollectButton.setOnClickListener { checkDataFileAndStartCollectData() }
         stopCollectButton.setOnClickListener { stopCollectData() }
+        continueCollectButton.setOnClickListener{continueCollectData()}
+        pauseCollectButton.setOnClickListener { pauseCollectData() }
 
         camera.addCameraListener(object: CameraListener() {
             override fun onPictureTaken(result: PictureResult) {
@@ -86,9 +110,31 @@ class CollectDataActivity : Activity() {
         initializeSteeringButton.isEnabled = true
     }
 
+    private fun checkDataFileAndStartCollectData() {
+        if (doesDataFileExist()) {
+            val filename = getDataFile().name
+            AlertDialog.Builder(this)
+                .setTitle("Delete data")
+                .setMessage("Data file already exists. Do you want to delete $filename?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, object : DialogInterface.OnClickListener {
+
+                    override fun onClick(dialog: DialogInterface, whichButton: Int) {
+                        deleteDataFile()
+                        startCollectData()
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null).show()
+        } else {
+            startCollectData()
+        }
+    }
+
     private fun startCollectData() {
         startCollectButton.isEnabled = false
         stopCollectButton.isEnabled = true
+        continueCollectButton.isEnabled = false
+        pauseCollectButton.isEnabled = true
 
         cameraService = CameraService(
             camera.width,
@@ -109,13 +155,42 @@ class CollectDataActivity : Activity() {
 
                     writePixelsToDataFile(grayscalePixels, latestSteeringAngle, processedImageWidth, processedImageHeight, sourceImagePositionX, sourceImagePositionY, sourceImageWidth, sourceImageHeight)
 
-                    val latestSteeringAngleMirrored = (latestSteeringAngle - 50) * (-1) + 50
-                    val mirroredGrayscalePixels = mirrorPixelArray(grayscalePixels, processedImageWidth, processedImageHeight)
-                    writePixelsToDataFile(mirroredGrayscalePixels, latestSteeringAngleMirrored, processedImageWidth, processedImageHeight, sourceImagePositionX, sourceImagePositionY, sourceImageWidth, sourceImageHeight)
+                    if (addMirroredDataCheckBox.isChecked){
+                        val latestSteeringAngleMirrored = 100 - latestSteeringAngle
+                        val mirroredGrayscalePixels = mirrorPixelArray(grayscalePixels, processedImageWidth, processedImageHeight)
+                        writePixelsToDataFile(mirroredGrayscalePixels, latestSteeringAngleMirrored, processedImageWidth, processedImageHeight, sourceImagePositionX, sourceImagePositionY, sourceImageWidth, sourceImageHeight)
+                    }
                 }
             })
 
         robotController?.startCollectData()
+    }
+
+    private fun continueCollectData(){
+        startCollectButton.isEnabled = false
+        stopCollectButton.isEnabled = true
+        continueCollectButton.isEnabled = false
+        pauseCollectButton.isEnabled = true
+
+        robotController?.startCollectData()
+    }
+
+    private fun pauseCollectData() {
+        startCollectButton.isEnabled = false
+        stopCollectButton.isEnabled = true
+        continueCollectButton.isEnabled = true
+        pauseCollectButton.isEnabled = false
+
+        robotController?.stopCollectData()
+    }
+
+    private fun stopCollectData() {
+        startCollectButton.isEnabled = true
+        stopCollectButton.isEnabled = false
+        continueCollectButton.isEnabled = false
+        pauseCollectButton.isEnabled = false
+
+        robotController?.stopCollectData()
     }
 
     private fun writePixelsToDataFile(pixels: IntArray,
@@ -146,11 +221,8 @@ class CollectDataActivity : Activity() {
         return mirrored
     }
 
-    private fun stopCollectData() {
-        startCollectButton.isEnabled = true
-        stopCollectButton.isEnabled = false
-
-        robotController?.stopCollectData()
+    private fun addLogText(logText: String) {
+        statusTextView.append("\n" + logText)
     }
 
     private fun addTextToDataFile(text: String){
@@ -159,6 +231,10 @@ class CollectDataActivity : Activity() {
 
     private fun doesDataFileExist(): Boolean {
         return getDataFile().exists()
+    }
+
+    private fun deleteDataFile(){
+        getDataFile().delete()
     }
 
     private fun getDataFile(): File {

@@ -27,26 +27,77 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="120dp"
                 android:weightSum="1">
-            <Button
-                    android:id="@+id/startCollectButton"
-                    android:layout_weight="0.5"
-                    android:layout_height="match_parent"
+
+            <LinearLayout
                     android:layout_width="0dp"
-                    android:text="Start collect"/>
-            <Button
-                    android:id="@+id/stopCollectButton"
-                    android:layout_weight="0.5"
                     android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+                <Button
+                        android:id="@+id/startCollectButton"
+                        android:layout_weight="0.5"
+                        android:layout_height="0dp"
+                        android:layout_width="match_parent"
+                        android:text="Start collect"/>
+                <Button
+                        android:id="@+id/continueCollectButton"
+                        android:layout_weight="0.5"
+                        android:layout_height="0dp"
+                        android:layout_width="match_parent"
+                        android:text="Continue"/>
+            </LinearLayout>
+
+            <LinearLayout
                     android:layout_width="0dp"
-                    android:text="Stop collect"/>
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+                <Button
+                        android:id="@+id/stopCollectButton"
+                        android:layout_weight="0.5"
+                        android:layout_height="0dp"
+                        android:layout_width="match_parent"
+                        android:text="Stop collect"/>
+                <Button
+                        android:id="@+id/pauseCollectButton"
+                        android:layout_weight="0.5"
+                        android:layout_height="0dp"
+                        android:layout_width="match_parent"
+                        android:text="Pause"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:weightSum="1"
+                android:orientation="vertical">
+            <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:checked="false"
+                    android:id="@+id/addMirroredDataCheckBox"
+                    android:layout_marginLeft="20dp"
+                    android:text="Add mirrored data automatically"/>
+            <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:checked="false"
+                    android:id="@+id/cameraFlashOnCheckBox"
+                    android:layout_marginLeft="20dp"
+                    android:text="Camera flash on"/>
         </LinearLayout>
 
         <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.4">
+                android:layout_weight="0.7">
 
             <com.otaliastudios.cameraview.CameraView
                     android:id="@+id/camera"
@@ -71,5 +122,17 @@
                 app:srcCompat="@android:color/darker_gray"
                 android:id="@+id/converted_image"
                 android:layout_weight="0.3"/>
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_weight="0"
+                android:scrollbarAlwaysDrawVerticalTrack="true">
+            <TextView
+                    android:id="@+id/statusTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"/>
+        </ScrollView>
     </LinearLayout>
 </FrameLayout>

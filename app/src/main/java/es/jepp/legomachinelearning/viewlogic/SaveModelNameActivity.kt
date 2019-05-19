@@ -25,7 +25,9 @@ class SaveModelNameActivity : Activity() {
 
             val modelName = modelNameInput.text.toString()
 
-            if (getDataFile(modelName).exists()) {
+            if (modelName == null || modelName == "") {
+                Toast.makeText(this, "Specify a model name", Toast.LENGTH_LONG).show()
+            } else if (getDataFile(modelName).exists()) {
                 Toast.makeText(this, "Model already exists", Toast.LENGTH_LONG).show()
             } else {
                 val intent = Intent(this, CollectDataActivity::class.java)

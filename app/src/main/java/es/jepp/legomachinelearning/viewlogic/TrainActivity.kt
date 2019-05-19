@@ -54,6 +54,8 @@ class TrainActivity : Activity(), LinearRegression.LinearRegressionIterationHand
         startTrainButton.setOnClickListener {
             startTrainButton.isEnabled = false
             stopTrainButton.isEnabled = true
+            learningRateEditText.isEnabled = false
+            numberOfIterationsEditText.isEnabled = false
 
             val numberOfIterations = numberOfIterationsEditText.text.toString().toInt()
             val learningRate = learningRateEditText.text.toString().toFloat()
@@ -143,6 +145,8 @@ class TrainActivity : Activity(), LinearRegression.LinearRegressionIterationHand
         uiHandler!!.post{
             startTrainButton.isEnabled = true
             stopTrainButton.isEnabled = false
+            learningRateEditText.isEnabled = true
+            numberOfIterationsEditText.isEnabled = true
         }
     }
 }
