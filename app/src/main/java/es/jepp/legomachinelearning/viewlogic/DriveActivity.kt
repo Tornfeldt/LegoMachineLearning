@@ -14,9 +14,14 @@ import com.otaliastudios.cameraview.Flash
 import com.otaliastudios.cameraview.PictureResult
 import es.jepp.legomachinelearning.*
 import es.jepp.legomachinelearning.data.CsvToDataConverter
+import es.jepp.legomachinelearning.data.LinearRegressionTools
 import es.jepp.legomachinelearning.data.TrainedModel
+import es.jepp.legomachinelearning.imagelogic.CameraService
+import es.jepp.legomachinelearning.imagelogic.ImageDataReadyHandler
+import es.jepp.legomachinelearning.robotlogic.FakeRobotController
+import es.jepp.legomachinelearning.robotlogic.RobotController
+import es.jepp.legomachinelearning.robotlogic.RobotHasSteeredHandler
 import kotlinx.android.synthetic.main.activity_drive.*
-import kotlinx.coroutines.delay
 import java.io.File
 
 class DriveActivity : Activity() {
@@ -41,7 +46,7 @@ class DriveActivity : Activity() {
         robotController = RobotController(
             actualRobotController,
             object : RobotHasSteeredHandler {
-                override fun robotHasSteered(newAngleInPercent: Float) { }
+                override fun robotHasSteered(newAngleInPercent: Float) {}
             })
 
         camera.addCameraListener(object: CameraListener() {
@@ -110,7 +115,21 @@ class DriveActivity : Activity() {
         cameraService = CameraService(
             camera.width,
             camera.height,
-            arrayOf(Point(trainedModel!!.sourceImagePositionX, trainedModel!!.sourceImagePositionY), Point(trainedModel!!.sourceImagePositionX + trainedModel!!.sourceImageWidth, trainedModel!!.sourceImagePositionY), Point(trainedModel!!.sourceImagePositionX, trainedModel!!.sourceImagePositionY + trainedModel!!.sourceImageHeight), Point(trainedModel!!.sourceImagePositionX + trainedModel!!.sourceImageWidth, trainedModel!!.sourceImagePositionY + trainedModel!!.sourceImageHeight)),
+            arrayOf(
+                Point(trainedModel!!.sourceImagePositionX, trainedModel!!.sourceImagePositionY),
+                Point(
+                    trainedModel!!.sourceImagePositionX + trainedModel!!.sourceImageWidth,
+                    trainedModel!!.sourceImagePositionY
+                ),
+                Point(
+                    trainedModel!!.sourceImagePositionX,
+                    trainedModel!!.sourceImagePositionY + trainedModel!!.sourceImageHeight
+                ),
+                Point(
+                    trainedModel!!.sourceImagePositionX + trainedModel!!.sourceImageWidth,
+                    trainedModel!!.sourceImagePositionY + trainedModel!!.sourceImageHeight
+                )
+            ),
             object : ImageDataReadyHandler {
                 override fun imageReady(
                     processedImageWidth: Int,
@@ -121,7 +140,7 @@ class DriveActivity : Activity() {
                     sourceImageHeight: Int,
                     image: Bitmap,
                     grayscalePixels: IntArray
-                )  {
+                ) {
                     if (isDriving) {
                         converted_image.setImageBitmap(image)
                         steerCar(grayscalePixels)

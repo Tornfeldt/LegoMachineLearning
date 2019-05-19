@@ -1,4 +1,4 @@
-package es.jepp.legomachinelearning
+package es.jepp.legomachinelearning.robotlogic
 
 import kotlinx.coroutines.*
 

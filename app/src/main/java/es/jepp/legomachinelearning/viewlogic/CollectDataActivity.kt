@@ -13,6 +13,11 @@ import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.Flash
 import com.otaliastudios.cameraview.PictureResult
 import es.jepp.legomachinelearning.*
+import es.jepp.legomachinelearning.imagelogic.CameraService
+import es.jepp.legomachinelearning.imagelogic.ImageDataReadyHandler
+import es.jepp.legomachinelearning.robotlogic.FakeRobotController
+import es.jepp.legomachinelearning.robotlogic.RobotController
+import es.jepp.legomachinelearning.robotlogic.RobotHasSteeredHandler
 import kotlinx.android.synthetic.main.activity_collect_data.*
 import java.io.File
 
@@ -153,12 +158,31 @@ class CollectDataActivity : Activity() {
                 ) {
                     converted_image.setImageBitmap(image)
 
-                    writePixelsToDataFile(grayscalePixels, latestSteeringAngle, processedImageWidth, processedImageHeight, sourceImagePositionX, sourceImagePositionY, sourceImageWidth, sourceImageHeight)
+                    writePixelsToDataFile(
+                        grayscalePixels,
+                        latestSteeringAngle,
+                        processedImageWidth,
+                        processedImageHeight,
+                        sourceImagePositionX,
+                        sourceImagePositionY,
+                        sourceImageWidth,
+                        sourceImageHeight
+                    )
 
-                    if (addMirroredDataCheckBox.isChecked){
+                    if (addMirroredDataCheckBox.isChecked) {
                         val latestSteeringAngleMirrored = 100 - latestSteeringAngle
-                        val mirroredGrayscalePixels = mirrorPixelArray(grayscalePixels, processedImageWidth, processedImageHeight)
-                        writePixelsToDataFile(mirroredGrayscalePixels, latestSteeringAngleMirrored, processedImageWidth, processedImageHeight, sourceImagePositionX, sourceImagePositionY, sourceImageWidth, sourceImageHeight)
+                        val mirroredGrayscalePixels =
+                            mirrorPixelArray(grayscalePixels, processedImageWidth, processedImageHeight)
+                        writePixelsToDataFile(
+                            mirroredGrayscalePixels,
+                            latestSteeringAngleMirrored,
+                            processedImageWidth,
+                            processedImageHeight,
+                            sourceImagePositionX,
+                            sourceImagePositionY,
+                            sourceImageWidth,
+                            sourceImageHeight
+                        )
                     }
                 }
             })

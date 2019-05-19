@@ -6,8 +6,7 @@ import android.os.Handler
 import android.view.View
 import com.google.gson.Gson
 import com.jjoe64.graphview.series.DataPoint
-import com.jjoe64.graphview.series.DataPointInterface
-import es.jepp.legomachinelearning.LinearRegression
+import es.jepp.legomachinelearning.data.LinearRegression
 import es.jepp.legomachinelearning.R
 import es.jepp.legomachinelearning.StaticSettings
 import es.jepp.legomachinelearning.data.CsvToDataConverter
@@ -63,7 +62,12 @@ class TrainActivity : Activity(), LinearRegression.LinearRegressionIterationHand
 
             setupGraph(numberOfIterations)
 
-            linearRegression = LinearRegression(trainData.X, trainData.y, learningRate, numberOfIterations)
+            linearRegression = LinearRegression(
+                trainData.X,
+                trainData.y,
+                learningRate,
+                numberOfIterations
+            )
 
             linearRegression!!.generateTheta()
             linearRegression!!.setIterationHandler(this)

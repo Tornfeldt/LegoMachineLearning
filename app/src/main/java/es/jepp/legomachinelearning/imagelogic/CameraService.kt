@@ -1,4 +1,4 @@
-package es.jepp.legomachinelearning
+package es.jepp.legomachinelearning.imagelogic
 
 import android.graphics.Bitmap
 import android.graphics.Color

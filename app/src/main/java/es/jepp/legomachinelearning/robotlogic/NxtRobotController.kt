@@ -1,4 +1,4 @@
-package es.jepp.legomachinelearning
+package es.jepp.legomachinelearning.robotlogic
 
 import android.util.Log
 import lejos.nxt.Motor
@@ -56,9 +56,9 @@ object NxtRobotController : BasicRobotController {
                 }
             })
 
-            when (NXT_CONN_TYPE.LEJOS_PACKET) {
-                NXT_CONN_TYPE.LEGO_LCP -> conn.connectTo("btspp://NXT", NXTComm.LCP)
-                NXT_CONN_TYPE.LEJOS_PACKET -> conn.connectTo("btspp://")
+            when (NxtRobotController.NXT_CONN_TYPE.LEJOS_PACKET) {
+                NxtRobotController.NXT_CONN_TYPE.LEGO_LCP -> conn.connectTo("btspp://NXT", NXTComm.LCP)
+                NxtRobotController.NXT_CONN_TYPE.LEJOS_PACKET -> conn.connectTo("btspp://")
             }
 
             NXTCommandConnector.setNXTCommand(NXTCommand(conn.getNXTComm()))

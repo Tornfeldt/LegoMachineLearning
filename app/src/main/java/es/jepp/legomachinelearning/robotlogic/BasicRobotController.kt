@@ -1,4 +1,4 @@
-package es.jepp.legomachinelearning
+package es.jepp.legomachinelearning.robotlogic
 
 interface BasicRobotController {
     fun tryConnect(): Boolean

@@ -1,4 +1,4 @@
-package es.jepp.legomachinelearning
+package es.jepp.legomachinelearning.data
 
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

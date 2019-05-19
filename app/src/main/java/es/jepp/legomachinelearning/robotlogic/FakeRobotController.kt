@@ -1,4 +1,6 @@
-package es.jepp.legomachinelearning
+package es.jepp.legomachinelearning.robotlogic
+
+import es.jepp.legomachinelearning.robotlogic.BasicRobotController
 
 object FakeRobotController: BasicRobotController {
     override fun resetSteeringAngleToCenterPosition() {

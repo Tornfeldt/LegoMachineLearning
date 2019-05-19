@@ -1,4 +1,4 @@
-package es.jepp.legomachinelearning
+package es.jepp.legomachinelearning.data
 
 import java.lang.IllegalArgumentException
 import kotlin.math.pow
