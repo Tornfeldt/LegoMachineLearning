@@ -50,42 +50,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:orientation="vertical">
-            <LinearLayout
-                    android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="2">
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Learning rate:"
-                        android:layout_marginRight="5pt"/>
-                <EditText
+                    android:layout_weight="1">
+                <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="numberDecimal"
                         android:ems="10"
                         android:text="0.1"
+                        android:hint="Learning rate"
                         android:id="@+id/learningRateEditText"/>
-            </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
-                    android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Iterations:"
-                        android:layout_marginRight="5pt"/>
-                <EditText
+                    android:layout_weight="1">
+                <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:ems="10"
                         android:text="10000"
+                        android:hint="Iterations"
                         android:id="@+id/numberOfIterationsEditText"/>
-            </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -115,17 +108,31 @@
                 android:id="@+id/graph"
                 android:layout_weight="1"/>
 
-        <ScrollView
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
-                android:layout_weight="0"
-                android:scrollbarAlwaysDrawVerticalTrack="true">
+                android:weightSum="1"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingLeft="5dp">
             <TextView
-                    android:id="@+id/statusTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"/>
-        </ScrollView>
+                    android:text="Log:"/>
+
+            <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scrollbarAlwaysDrawVerticalTrack="true"
+                    android:id="@+id/statusScrollView">
+                <TextView
+                        android:id="@+id/statusTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"/>
+            </ScrollView>
+        </LinearLayout>
 
     </LinearLayout>
 

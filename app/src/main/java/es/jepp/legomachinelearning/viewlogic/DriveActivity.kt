@@ -39,6 +39,8 @@ class DriveActivity : Activity() {
         driveContainer.visibility = View.GONE
         initializeContainer.visibility = View.VISIBLE
 
+        stopDrivingButton.isEnabled = false
+
         setTrainedModel()
 
         movableLine.setIsHorizontal(true)
@@ -189,20 +191,6 @@ class DriveActivity : Activity() {
         val file = getDataFile()
         val content = file.readText()
         trainedModel = Gson().fromJson(content, TrainedModel::class.java)
-    }
-
-    private fun listSurroundingImageLinePoints(): Array<Point> {
-        var left = 0
-        var right = movableLine.width
-        var top = movableLine.getDistanceInPixelsFromTopOrLeft()
-        var bottom = top + 1
-
-        if (bottom > movableLine.height) {
-            top -= 1
-            bottom -= 1
-        }
-
-        return arrayOf<Point>(Point(left, top), Point(left, bottom), Point(right, bottom), Point(right, top))
     }
 
     private fun getDataFile(): File {

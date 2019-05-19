@@ -3,7 +3,10 @@ package es.jepp.legomachinelearning.viewlogic
 import android.app.Activity
 import android.os.Bundle
 import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
 import com.google.gson.Gson
 import com.jjoe64.graphview.series.DataPoint
 import es.jepp.legomachinelearning.data.LinearRegression
@@ -14,11 +17,12 @@ import es.jepp.legomachinelearning.data.TrainedModel
 import kotlinx.android.synthetic.main.activity_train.*
 import java.io.File
 import com.jjoe64.graphview.series.LineGraphSeries
-
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class TrainActivity : Activity(), LinearRegression.LinearRegressionIterationHandler {
-
     private var linearRegression: LinearRegression? = null
     private var graphSeries: LineGraphSeries<DataPoint>? = null
 
@@ -151,6 +155,32 @@ class TrainActivity : Activity(), LinearRegression.LinearRegressionIterationHand
             stopTrainButton.isEnabled = false
             learningRateEditText.isEnabled = true
             numberOfIterationsEditText.isEnabled = true
+        }
+    }
+
+    override fun trainError(errorMessage: String) {
+        uiHandler!!.post{
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+
+            addLogText(errorMessage)
+
+            startTrainButton.isEnabled = true
+            stopTrainButton.isEnabled = false
+            learningRateEditText.isEnabled = true
+            numberOfIterationsEditText.isEnabled = true
+        }
+    }
+
+    private fun addLogText(logText: String) {
+        uiHandler!!.post{
+            statusTextView.append("\n" + logText)
+        }
+        GlobalScope.launch {
+            delay(100)
+
+            uiHandler!!.post{
+                statusScrollView.fullScroll(View.FOCUS_DOWN)
+            }
         }
     }
 }

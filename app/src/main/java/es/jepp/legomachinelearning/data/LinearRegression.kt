@@ -39,18 +39,26 @@ class LinearRegression {
         gradientDescentIsRunning = true
 
         GlobalScope.launch {
+            var isSuccess = false
+
             for (iteration in 1..numberOfIterations) {
                 if (!gradientDescentIsRunning) {
                     break
                 }
 
-                gradientDescentSingleIteration()
+                isSuccess = gradientDescentSingleIteration()
+
+                if (!isSuccess){
+                    break;
+                }
 
                 val cost = LinearRegressionTools.computeCost(X, y, theta!!)
                 iterationHandler?.afterEachIteration(numberOfIterations, iteration, cost)
             }
 
-            iterationHandler?.afterAllIterations(theta!!)
+            if (isSuccess) {
+                iterationHandler?.afterAllIterations(theta!!)
+            }
         }.start()
     }
 
@@ -58,7 +66,7 @@ class LinearRegression {
         gradientDescentIsRunning = false
     }
 
-    private fun gradientDescentSingleIteration() {
+    private fun gradientDescentSingleIteration(): Boolean {
         if (X.size != y.size)
             throw IllegalArgumentException("X and y must have the same length.");
 
@@ -73,8 +81,15 @@ class LinearRegression {
                 sumResult += (learningRate / m) * (h - y[i]) * X[i][j]
             }
 
-            theta!![j] = theta!![j] - sumResult.toFloat()
+            val thetaJ = theta!![j] - sumResult.toFloat()
+            if (thetaJ.isNaN()) {
+                iterationHandler?.trainError("Error when calculating theta. Try and decrease the learning rate.")
+                return false;
+            }
+            theta!![j] = thetaJ
         }
+
+        return true
     }
 
     fun setIterationHandler(iterationHandler: LinearRegressionIterationHandler){
@@ -84,5 +99,6 @@ class LinearRegression {
     interface LinearRegressionIterationHandler {
         fun afterEachIteration(totalNumberOfIterations: Int, currentIteration: Int, currentTrainCost: Float)
         fun afterAllIterations(theta: FloatArray)
+        fun trainError(errorMessage: String)
     }
 }
