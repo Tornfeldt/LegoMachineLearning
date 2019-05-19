@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.Bitmap
+import android.graphics.Point
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
@@ -33,6 +34,10 @@ class CollectDataActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_collect_data)
+
+        movableLine.setIsHorizontal(true)
+        movableLine.setCanMove(true)
+        movableLine.setDistanceInPercentFromTopOrLeft(90f)
 
         val actualRobotController = FakeRobotController
         //val actualRobotController = NxtRobotController
@@ -144,7 +149,7 @@ class CollectDataActivity : Activity() {
         cameraService = CameraService(
             camera.width,
             camera.height,
-            rectangleDrawView.listPoints(),
+            listSurroundingImageLinePoints(),
             object : ImageDataReadyHandler {
                 override fun imageReady(
                     processedImageWidth: Int,
@@ -232,6 +237,20 @@ class CollectDataActivity : Activity() {
         csvLine += "\n"
 
         addTextToDataFile(csvLine)
+    }
+
+    private fun listSurroundingImageLinePoints(): Array<Point> {
+        var left = 0
+        var right = movableLine.width
+        var top = movableLine.getDistanceInPixelsFromTopOrLeft()
+        var bottom = top + 1
+
+        if (bottom > movableLine.height) {
+            top -= 1
+            bottom -= 1
+        }
+
+        return arrayOf<Point>(Point(left, top), Point(left, bottom), Point(right, bottom), Point(right, top))
     }
 
     private fun mirrorPixelArray(pixels: IntArray, width: Int, height: Int): IntArray{

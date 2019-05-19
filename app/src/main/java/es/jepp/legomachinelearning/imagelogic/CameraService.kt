@@ -12,8 +12,8 @@ class CameraService {
     private val cameraViewWidth: Int
     private val cameraViewHeight: Int
 
-    private val resultingBitmapMaxWidth: Int = 200
-    private val resultingBitmapMaxHeight: Int = 200
+    private val resultingBitmapMaxWidth: Int = 250
+    private val resultingBitmapMaxHeight: Int = 250
 
     private val minimumXSurroundingWantedPixels: Int
     private val maximumXSurroundingWantedPixels: Int
@@ -67,9 +67,8 @@ class CameraService {
             resultingBitmap?.getPixels(wantedPixels, 0, width, minXImage, minYImage, width, height)
 
             convertRgbPixelsToGrayscaleRgbValues(wantedPixels)
-            var newImagePixels = wantedPixels + wantedPixels + wantedPixels + wantedPixels + wantedPixels + wantedPixels + wantedPixels + wantedPixels + wantedPixels + wantedPixels + wantedPixels;
-            val newBitmap = Bitmap.createBitmap(width, height * 10, resultingBitmap.config)
-            newBitmap.copyPixelsFromBuffer(IntBuffer.wrap(newImagePixels))
+            val newBitmap = Bitmap.createBitmap(width, height, resultingBitmap.config)
+            newBitmap.copyPixelsFromBuffer(IntBuffer.wrap(wantedPixels))
 
             convertRgbPixelsToGrayscaleValues(wantedPixels)
 

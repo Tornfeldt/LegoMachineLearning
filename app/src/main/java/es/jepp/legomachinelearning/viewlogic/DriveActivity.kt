@@ -41,6 +41,14 @@ class DriveActivity : Activity() {
 
         setTrainedModel()
 
+        movableLine.setIsHorizontal(true)
+        movableLine.setCanMove(false)
+        movableLine.setDistanceInPixelsFromTopOrLeft(trainedModel!!.sourceImagePositionY)
+
+        steeringLine.setIsHorizontal(false)
+        steeringLine.setCanMove(false)
+        steeringLine.setDistanceInPercentFromTopOrLeft(50f)
+
         val actualRobotController = FakeRobotController
         //val actualRobotController = NxtRobotController
         robotController = RobotController(
@@ -169,6 +177,7 @@ class DriveActivity : Activity() {
 
         if (isDriving) {
             robotController?.steer(steeringAngle)
+            steeringLine.setDistanceInPercentFromTopOrLeft(steeringAngle)
 
             if (isDriving) {
                 camera.takePictureSnapshot()
@@ -180,6 +189,20 @@ class DriveActivity : Activity() {
         val file = getDataFile()
         val content = file.readText()
         trainedModel = Gson().fromJson(content, TrainedModel::class.java)
+    }
+
+    private fun listSurroundingImageLinePoints(): Array<Point> {
+        var left = 0
+        var right = movableLine.width
+        var top = movableLine.getDistanceInPixelsFromTopOrLeft()
+        var bottom = top + 1
+
+        if (bottom > movableLine.height) {
+            top -= 1
+            bottom -= 1
+        }
+
+        return arrayOf<Point>(Point(left, top), Point(left, bottom), Point(right, bottom), Point(right, top))
     }
 
     private fun getDataFile(): File {

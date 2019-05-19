@@ -105,14 +105,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:cameraPreview="glSurface"
-                    app:cameraFlash="torch"
+                    app:cameraFlash="off"
                     app:cameraMode="picture">
             </com.otaliastudios.cameraview.CameraView>
 
-            <es.jepp.legomachinelearning.drawview.RectagleDrawView
-                    android:id="@+id/rectangleDrawView"
+            <es.jepp.legomachinelearning.viewlogic.MovableLine
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:id="@+id/movableLine"/>
         </FrameLayout>
 
 
@@ -120,6 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:srcCompat="@android:color/darker_gray"
+                android:scaleType="fitXY"
                 android:id="@+id/converted_image"
                 android:layout_weight="0.3"/>
 
