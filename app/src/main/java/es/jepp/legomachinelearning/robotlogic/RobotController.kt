@@ -72,7 +72,7 @@ class RobotController {
         isCollectingData = true
 
         controller.steeringPower(80)
-        controller.drivingPower(20)
+        controller.drivingPower(10)
 
         GlobalScope.launch {
             // Steer the robot as long as we are collecting data. Run in its own thread to not block.
@@ -103,7 +103,7 @@ class RobotController {
      */
     fun startDriving() {
         controller.steeringPower(80)
-        controller.drivingPower(20)
+        controller.drivingPower(10)
         controller.drivingForward()
     }
 

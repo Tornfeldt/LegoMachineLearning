@@ -17,6 +17,7 @@ import es.jepp.legomachinelearning.*
 import es.jepp.legomachinelearning.imagelogic.CameraService
 import es.jepp.legomachinelearning.imagelogic.ImageDataReadyHandler
 import es.jepp.legomachinelearning.robotlogic.FakeRobotController
+import es.jepp.legomachinelearning.robotlogic.NxtRobotController
 import es.jepp.legomachinelearning.robotlogic.RobotController
 import es.jepp.legomachinelearning.robotlogic.RobotHasSteeredHandler
 import kotlinx.android.synthetic.main.activity_collect_data.*
@@ -39,8 +40,12 @@ class CollectDataActivity : Activity() {
         movableLine.setCanMove(true)
         movableLine.setDistanceInPercentFromTopOrLeft(90f)
 
-        val actualRobotController = FakeRobotController
-        //val actualRobotController = NxtRobotController
+        steeringLine.setIsHorizontal(false)
+        steeringLine.setCanMove(false)
+        steeringLine.setDistanceInPercentFromTopOrLeft(50f)
+
+        //val actualRobotController = FakeRobotController
+        val actualRobotController = NxtRobotController
         robotController = RobotController(
             actualRobotController,
             object : RobotHasSteeredHandler {
@@ -141,6 +146,8 @@ class CollectDataActivity : Activity() {
     }
 
     private fun startCollectData() {
+        movableLine.setCanMove(false)
+
         startCollectButton.isEnabled = false
         stopCollectButton.isEnabled = true
         continueCollectButton.isEnabled = false
@@ -162,6 +169,8 @@ class CollectDataActivity : Activity() {
                     grayscalePixels: IntArray
                 ) {
                     converted_image.setImageBitmap(image)
+
+                    steeringLine.setDistanceInPercentFromTopOrLeft(100 - latestSteeringAngle)
 
                     writePixelsToDataFile(
                         grayscalePixels,
@@ -218,6 +227,7 @@ class CollectDataActivity : Activity() {
         stopCollectButton.isEnabled = false
         continueCollectButton.isEnabled = false
         pauseCollectButton.isEnabled = false
+        movableLine.setCanMove(true)
 
         robotController?.stopCollectData()
     }

@@ -115,14 +115,22 @@
                     android:id="@+id/movableLine"/>
         </FrameLayout>
 
-
-        <ImageView
+        <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:srcCompat="@android:color/darker_gray"
-                android:scaleType="fitXY"
-                android:id="@+id/converted_image"
-                android:layout_weight="0.3"/>
+                android:layout_weight="0.3">
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@android:color/darker_gray"
+                    android:id="@+id/converted_image"/>
+
+            <es.jepp.legomachinelearning.viewlogic.MovableLine
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/steeringLine"/>
+        </FrameLayout>
 
         <ScrollView
                 android:layout_width="match_parent"

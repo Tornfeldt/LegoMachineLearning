@@ -19,6 +19,7 @@ import es.jepp.legomachinelearning.data.TrainedModel
 import es.jepp.legomachinelearning.imagelogic.CameraService
 import es.jepp.legomachinelearning.imagelogic.ImageDataReadyHandler
 import es.jepp.legomachinelearning.robotlogic.FakeRobotController
+import es.jepp.legomachinelearning.robotlogic.NxtRobotController
 import es.jepp.legomachinelearning.robotlogic.RobotController
 import es.jepp.legomachinelearning.robotlogic.RobotHasSteeredHandler
 import kotlinx.android.synthetic.main.activity_drive.*
@@ -51,8 +52,8 @@ class DriveActivity : Activity() {
         steeringLine.setCanMove(false)
         steeringLine.setDistanceInPercentFromTopOrLeft(50f)
 
-        val actualRobotController = FakeRobotController
-        //val actualRobotController = NxtRobotController
+        //val actualRobotController = FakeRobotController
+        val actualRobotController = NxtRobotController
         robotController = RobotController(
             actualRobotController,
             object : RobotHasSteeredHandler {
@@ -179,7 +180,7 @@ class DriveActivity : Activity() {
 
         if (isDriving) {
             robotController?.steer(steeringAngle)
-            steeringLine.setDistanceInPercentFromTopOrLeft(steeringAngle)
+            steeringLine.setDistanceInPercentFromTopOrLeft(100 - steeringAngle)
 
             if (isDriving) {
                 camera.takePictureSnapshot()

@@ -89,6 +89,7 @@ class TrainActivity : Activity(), LinearRegression.LinearRegressionIterationHand
         graph.viewport.setMaxX(totalNumberOfIterations.toDouble())
 
         graph.viewport.isYAxisBoundsManual = false
+        graph.viewport.setMinY(0.toDouble())
 
         // first mSeries is a line
         graphSeries = LineGraphSeries()
