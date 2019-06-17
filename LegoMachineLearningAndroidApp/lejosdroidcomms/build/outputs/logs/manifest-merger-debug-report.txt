@@ -1,0 +1,41 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml:2:1-8:12
+INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml:2:1-8:12
+INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml:2:1-8:12
+INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml:2:1-8:12
+INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml:2:1-8:12
+INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml:2:1-8:12
+INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml:2:1-8:12
+	package
+		ADDED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml:3:5-28
+		INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml
+		INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml
+	android:versionName
+		ADDED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml:5:5-30
+		INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml
+		INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml:2:11-69
+	android:versionCode
+		ADDED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml:4:5-28
+		INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml
+		INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml
+uses-permission#android.permission.BLUETOOTH
+ADDED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml:7:5-68
+	android:name
+		ADDED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml:7:22-65
+uses-sdk
+INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml
+INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml
+INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml
+INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml
+		ADDED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml
+		INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml
+		ADDED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml
+		INJECTED from C:\Projects\GitHub\LegoMachineLearning\LegoMachineLearningAndroidApp\lejosdroidcomms\src\main\AndroidManifest.xml
