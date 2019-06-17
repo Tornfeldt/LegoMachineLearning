@@ -35,7 +35,7 @@ class MovableLine : View {
     private fun init(context: Context) {
         isFocusable = true
         paint.color = Color.RED
-        paint.strokeWidth = 3f
+        paint.strokeWidth = 5f
         paint.alpha = 100
     }
 
@@ -131,6 +131,10 @@ class MovableLine : View {
 
     fun setCanMove(canMove: Boolean) {
         this.canMove = canMove
+    }
+
+    fun setColor(color: Int) {
+        this.paint.color = color
     }
 
     fun getDistanceInPixelsFromTopOrLeft(): Int {

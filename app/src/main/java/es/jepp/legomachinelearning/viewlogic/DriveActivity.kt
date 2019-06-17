@@ -2,6 +2,7 @@ package es.jepp.legomachinelearning.viewlogic
 
 import android.app.Activity
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.Point
 import android.os.Bundle
 import android.view.View
@@ -51,6 +52,7 @@ class DriveActivity : Activity() {
         steeringLine.setIsHorizontal(false)
         steeringLine.setCanMove(false)
         steeringLine.setDistanceInPercentFromTopOrLeft(50f)
+        steeringLine.setColor(Color.CYAN)
 
         //val actualRobotController = FakeRobotController
         val actualRobotController = NxtRobotController
